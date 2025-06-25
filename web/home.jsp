@@ -87,7 +87,7 @@
             <nav class="flex items-center space-x-8">
                 <a href="home.jsp" class="text-gray-700 hover:text-primary transition-colors font-medium">首页</a>
                 <a href="courses" class="text-gray-700 hover:text-primary transition-colors font-medium">课程培训</a>
-                <a href="#consulting" class="text-gray-700 hover:text-primary transition-colors font-medium">职业规划咨询</a>
+                <a href="AIChat.jsp" class="text-gray-700 hover:text-primary transition-colors font-medium">职业规划咨询</a>
                 <a href="#tests" class="text-gray-700 hover:text-primary transition-colors font-medium">职业测评</a>
                 <a href="#teachers" class="text-gray-700 hover:text-primary transition-colors font-medium">师资团队</a>
                 <a href="#my" class="text-gray-700 hover:text-primary transition-colors font-medium">个人中心</a>
