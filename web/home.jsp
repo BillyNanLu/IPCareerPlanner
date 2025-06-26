@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <html>
 <head>
@@ -73,7 +74,7 @@
     <div class="container mx-auto px-8">
         <div class="flex justify-between items-center h-16 md:h-20">
             <div class="flex items-center">
-                <a href="#" class="flex items-center space-x-2">
+                <a href="home" class="flex items-center space-x-2">
                     <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white">
                         <i class="fa fa-rocket text-xl"></i>
                     </div>
@@ -85,9 +86,9 @@
             </div>
 
             <nav class="flex items-center space-x-8">
-                <a href="home.jsp" class="text-gray-700 hover:text-primary transition-colors font-medium">首页</a>
+                <a href="home" class="text-gray-700 hover:text-primary transition-colors font-medium">首页</a>
                 <a href="courses" class="text-gray-700 hover:text-primary transition-colors font-medium">课程培训</a>
-                <a href="AIChat.jsp" class="text-gray-700 hover:text-primary transition-colors font-medium">职业规划咨询</a>
+                <a href="chat" class="text-gray-700 hover:text-primary transition-colors font-medium">职业规划咨询</a>
                 <a href="#tests" class="text-gray-700 hover:text-primary transition-colors font-medium">职业测评</a>
                 <a href="#teachers" class="text-gray-700 hover:text-primary transition-colors font-medium">师资团队</a>
                 <a href="#my" class="text-gray-700 hover:text-primary transition-colors font-medium">个人中心</a>
@@ -161,50 +162,22 @@
         </div>
 
         <div class="grid grid-cols-3 gap-8">
-            <!-- 课程卡片1 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-dark mb-2">职业生涯规划-基石班</h3>
-                    <p class="text-gray-500 mb-4">4种理论+15种工具，科学梳理职业发展，帮助你建立系统的职业规划思维</p>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">0基础入门</span>
-                        <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">职场必备</span>
+            <c:forEach var="course" items="${plannerCourses}">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-dark mb-2">${course.name}</h3>
+                        <p class="text-gray-500 mb-4">${course.intro}</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <c:forEach var="tag" items="${fn:split(course.tags, ',')}">
+                                <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">${tag}</span>
+                            </c:forEach>
+                        </div>
+                        <a href="courseDetail?id=${course.id}" class="inline-flex items-center text-primary font-medium hover:underline">
+                            了解详情 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
-                    <a href="#course-details" class="inline-flex items-center text-primary font-medium hover:underline">
-                        了解详情 <i class="fa fa-arrow-right ml-2"></i>
-                    </a>
                 </div>
-            </div>
-
-            <!-- 课程卡片2 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-dark mb-2">职业生涯咨询-实战班</h3>
-                    <p class="text-gray-500 mb-4">掌握咨询全流程+提升咨询技术，从理论到实践，成为专业的职业规划师</p>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">咨询实战</span>
-                        <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">职业转型</span>
-                    </div>
-                    <a href="#course-details" class="inline-flex items-center text-primary font-medium hover:underline">
-                        了解详情 <i class="fa fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- 课程卡片3 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-dark mb-2">一对一职业规划咨询</h3>
-                    <p class="text-gray-500 mb-4">专家定制化解决方案，案例式服务+多次预约直至问题解决，深度解决职业困惑</p>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">专家服务</span>
-                        <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">深度答疑</span>
-                    </div>
-                    <a href="#consult" class="inline-flex items-center text-primary font-medium hover:underline">
-                        立即预约 <i class="fa fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-            </div>
+            </c:forEach>
         </div>
 
         <!-- 特色服务 - 固定2列布局 -->
@@ -240,70 +213,29 @@
             <p class="text-gray-500 max-w-2xl mx-auto">我们拥有行业顶尖的师资力量，每位讲师都具备丰富的实战经验和专业知识</p>
         </div>
 
-        <!-- 明星讲师 - 固定3列布局 -->
+        <!-- 明星讲师 -->
         <div class="grid grid-cols-3 gap-8">
-            <!-- 讲师1 -->
-            <div class="bg-light rounded-xl overflow-hidden card-hover">
-                <img src="https://picsum.photos/id/1012/600/400" alt="古典老师" class="w-full h-64 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-dark mb-1">古典</h3>
-                    <p class="text-primary mb-3">中国职业生涯教育专家 / 新精英执行总裁</p>
-                    <p class="text-gray-500 mb-4">玛丽莲博士亲传弟子，国家一级职业指导师，著有《拆掉思维里的墙》《跃迁》等畅销书</p>
-                    <div class="flex space-x-3">
-                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                            <i class="fa fa-weibo"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                            <i class="fa fa-wechat"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                            <i class="fa fa-linkedin"></i>
-                        </a>
+            <c:forEach var="teacher" items="${departmentTeachers}">
+                <div class="bg-light rounded-xl overflow-hidden card-hover">
+                    <img src="${pageContext.request.contextPath}${teacher.imgage}" alt="${teacher.name}" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-dark mb-1">${teacher.name}</h3>
+                        <p class="text-primary mb-3">${teacher.expertise}</p>
+                        <p class="text-gray-500 mb-4">${teacher.profile}</p>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                                <i class="fa fa-weibo"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                                <i class="fa fa-wechat"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- 讲师2 -->
-            <div class="bg-light rounded-xl overflow-hidden card-hover">
-                <img src="https://picsum.photos/id/1027/600/400" alt="史延岩老师" class="w-full h-64 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-dark mb-1">史延岩</h3>
-                    <p class="text-primary mb-3">新精英资深生涯咨询师 / TA人际沟通分析师</p>
-                    <p class="text-gray-500 mb-4">国家二级心理咨询师，中科院心理所研究生，10年以上职业咨询经验，服务超过5000名客户</p>
-                    <div class="flex space-x-3">
-                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                            <i class="fa fa-weibo"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                            <i class="fa fa-wechat"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                            <i class="fa fa-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 讲师3 -->
-            <div class="bg-light rounded-xl overflow-hidden card-hover">
-                <img src="https://picsum.photos/id/1074/600/400" alt="王虹老师" class="w-full h-64 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-dark mb-1">王虹</h3>
-                    <p class="text-primary mb-3">职业规划实战专家 / 新精英高级培训师</p>
-                    <p class="text-gray-500 mb-4">前500强企业人力资源总监，15年HR经验，专注于职业转型与发展，著有《觉醒：把人生设计成你想要的样子》</p>
-                    <div class="flex space-x-3">
-                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                            <i class="fa fa-weibo"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                            <i class="fa fa-wechat"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                            <i class="fa fa-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            </c:forEach>
         </div>
 
         <!-- 企业实力数据 - 固定4列布局 -->
@@ -387,26 +319,35 @@
 
         <!-- 故事3 - 单独一行 -->
         <div class="mt-8 bg-white rounded-xl shadow-md overflow-hidden card-hover">
-            <div class="flex flex-row">
-                <div class="w-1/3">
+            <div class="flex flex-col md:flex-row gap-6">
+                <div class="w-full md:w-1/3 max-h-[400px] overflow-hidden rounded-xl">
                     <img src="https://picsum.photos/id/1011/600/800" alt="孙天一" class="w-full h-full object-cover">
                 </div>
-                <div class="p-6 w-2/3">
-                    <div class="flex items-center mb-4">
-                        <img src="https://picsum.photos/id/1025/60/60" alt="孙天一" class="w-12 h-12 rounded-full object-cover">
-                        <div class="ml-3">
-                            <h3 class="text-lg font-bold text-dark">孙天一</h3>
-                            <p class="text-gray-500 text-sm">90后自由职业者</p>
+                <div class="p-6 md:w-2/3 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <img src="https://picsum.photos/id/1025/60/60" alt="孙天一" class="w-12 h-12 rounded-full object-cover border-2 border-primary shadow-sm">
+                            <div class="ml-3">
+                                <h3 class="text-lg font-bold text-dark">孙天一</h3>
+                                <p class="text-gray-500 text-sm">90后自由职业者</p>
+                            </div>
                         </div>
+                        <h4 class="text-xl font-bold text-dark mb-3">"三天找到梦想入口"</h4>
+                        <p class="text-gray-500 mb-4">突破专业与工作的迷茫，通过三天的密集咨询和指导，发现了自己真正的职业兴趣，开启了新的职业篇章。</p>
+                        <div class="flex flex-wrap gap-3 mb-4">
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-semibold">3天密集辅导</span>
+                            <span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-sm font-semibold">100% 满意率</span>
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-semibold">转型成功</span>
+                        </div>
+                        <p class="italic text-gray-400 mb-6">“这段经历彻底改变了我的职业观和未来规划。”</p>
                     </div>
-                    <h4 class="text-xl font-bold text-dark mb-3">"三天找到梦想入口"</h4>
-                    <p class="text-gray-500 mb-4">突破专业与工作的迷茫，通过三天的密集咨询和指导，发现了自己真正的职业兴趣，开启了新的职业篇章。</p>
-                    <a href="#story-details" class="inline-flex items-center text-primary font-medium hover:underline">
+                    <a href="#story-details" class="inline-flex items-center text-primary font-medium hover:underline self-start">
                         阅读完整故事 <i class="fa fa-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
         </div>
+
 
         <!-- 媒体动态 - 固定3列布局 -->
         <div class="mt-20">
@@ -492,7 +433,7 @@
                 </div>
             </c:if>
 
-            <form class="bg-white/10 backdrop-blur-sm p-8 rounded-xl" action="home" method="get">
+            <form class="bg-white/10 backdrop-blur-sm p-8 rounded-xl" action="home" method="post">
                 <div class="grid grid-cols-2 gap-6 mb-6">
                     <div>
                         <label for="name" class="block text-white/80 mb-2 text-sm">姓名</label>
@@ -519,105 +460,7 @@
 </section>
 
 <!-- 底部信息区 -->
-<footer class="bg-dark text-white pt-16 pb-8">
-    <div class="container mx-auto px-8">
-        <div class="grid grid-cols-4 gap-8 mb-12">
-            <!-- 联系信息 -->
-            <div>
-                <div class="flex items-center space-x-2 mb-6">
-                    <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white">
-                        <i class="fa fa-rocket text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold">新精英生涯</h3>
-                        <p class="text-gray-400 text-sm">成长，长成自己的样子</p>
-                    </div>
-                </div>
-
-                <div class="space-y-4 mb-6">
-                    <div class="flex items-start space-x-3">
-                        <i class="fa fa-map-marker text-primary mt-1"></i>
-                        <p class="text-gray-400">中国（上海）自由贸易试验区奥纳路55号1幢607室</p>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <i class="fa fa-phone text-primary"></i>
-                        <p class="text-gray-400">400-0000-182（24小时免费咨询）</p>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <i class="fa fa-clock-o text-primary"></i>
-                        <p class="text-gray-400">周一至周日 9:00-21:00</p>
-                    </div>
-                </div>
-
-                <div class="flex space-x-4">
-                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-weibo"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-wechat"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-linkedin"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-youtube-play"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- 快捷入口 -->
-            <div>
-                <h3 class="text-lg font-bold mb-6">快捷入口</h3>
-                <ul class="space-y-3">
-                    <li><a href="#courses" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 课程试听申请</a></li>
-                    <li><a href="#consult" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 咨询师预约</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 学员登录</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 生涯测评工具</a></li>
-                    <li><a href="#stories" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 学员成功故事</a></li>
-                    <li><a href="#news" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 生涯资讯</a></li>
-                </ul>
-            </div>
-
-            <!-- 课程体系 -->
-            <div>
-                <h3 class="text-lg font-bold mb-6">课程体系</h3>
-                <ul class="space-y-3">
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 职业生涯规划-基石班</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 职业生涯咨询-实战班</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 一对一职业规划咨询</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 超级个体IP营</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 职业辅导「选对」平台</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 企业内训服务</a></li>
-                </ul>
-            </div>
-
-            <!-- 微信公众号 -->
-            <div>
-                <h3 class="text-lg font-bold mb-6">关注我们</h3>
-                <p class="text-gray-400 mb-4">扫描二维码，关注公众号获取更多生涯规划资讯</p>
-                <div class="bg-white p-4 rounded-lg inline-block mb-4">
-                    <img src="https://picsum.photos/id/1/120/120" alt="微信公众号二维码" class="w-32 h-32">
-                </div>
-                <p class="text-gray-400">IP创氪师</p>
-
-                <h3 class="text-lg font-bold mt-8 mb-4">下载APP</h3>
-                <p class="text-gray-400 mb-2">随时随地学习，开启你的职业成长之旅</p>
-                <div class="flex space-x-2">
-                    <a href="#" class="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-apple text-xl"></i>
-                    </a>
-                    <a href="#" class="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-android text-xl"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="border-t border-gray-700 pt-8 text-center text-gray-500 text-sm">
-            <p>© <%= new java.util.Date().getYear() + 1900 %> IP创氪师 版权所有</p>
-        </div>
-    </div>
-</footer>
+<jsp:include page="footer.jsp"/>
 
 <!-- 返回顶部按钮 -->
 <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center opacity-0 invisible transition-all z-50">

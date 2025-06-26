@@ -40,7 +40,7 @@
 
         <nav class="login-nav">
             <a href="#">首页</a>
-            <a href="#">课程中心</a>
+            <a href="courses">课程中心</a>
             <a href="#">关于我们</a>
             <a href="#" class="active">帮助中心</a>
         </nav>
@@ -149,6 +149,8 @@
                     <label><input type="checkbox" id="remember" name="remember"> 记住密码</label>
                     <a href="#">忘记密码？</a>
                 </div>
+
+                <input type="hidden" name="redirect" value="${param.redirect != null ? param.redirect : ''}" />
 
                 <!-- 登录按钮 -->
                 <button type="submit" class="login-button">登录</button>

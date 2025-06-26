@@ -23,6 +23,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
+        String redirect = request.getParameter("redirect");
 
         MD5Util md5 = new MD5Util();
         password = md5.getMD5Str(password);
@@ -34,17 +35,27 @@ public class LoginServlet extends HttpServlet {
             LocalDateTime now = LocalDateTime.now();
             usersDao.updateLastLogin(user.getUser_id(), now);
 
-            // 根据角色跳转页面
+            request.getSession().setAttribute("loginUser", user);
+            request.getSession().setAttribute("user_id", user.getUser_id());
+
+            // 判断是否存在回跳参数，优先回跳
+            if ("chat".equals(redirect)) {
+                response.sendRedirect("chat");
+                return;
+            }
+
+            // 否则按角色跳转
             if (user.getRole_id() == 1 || user.getRole_id() == 2) {
-                request.getSession().setAttribute("loginUser", user);
                 response.sendRedirect("admin.jsp");
             } else {
-                request.getSession().setAttribute("loginUser", user);
                 response.sendRedirect("home.jsp");
             }
+
         } else {
             // 登录失败，返回登录页，附带错误信息
             request.setAttribute("error", "手机号或密码错误");
+            // 把 redirect 参数传回去，保证登录页表单隐藏域能保留
+            request.setAttribute("redirect", redirect);
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

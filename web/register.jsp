@@ -56,7 +56,7 @@
             <!-- 右侧导航 -->
             <nav class="flex items-center space-x-6">
                 <a href="#" class="text-gray-700 hover:text-primary transition-colors">首页</a>
-                <a href="#" class="text-gray-700 hover:text-primary transition-colors">课程中心</a>
+                <a href="courses" class="text-gray-700 hover:text-primary transition-colors">课程中心</a>
                 <a href="#" class="text-gray-700 hover:text-primary transition-colors">关于我们</a>
                 <a href="#" class="text-primary font-medium">帮助中心</a>
             </nav>

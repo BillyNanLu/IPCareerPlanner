@@ -135,7 +135,7 @@
     <div class="container mx-auto px-8">
         <div class="flex justify-between items-center h-16 md:h-20">
             <div class="flex items-center">
-                <a href="#" class="flex items-center space-x-2">
+                <a href="home" class="flex items-center space-x-2">
                     <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white">
                         <i class="fa fa-rocket text-xl"></i>
                     </div>
@@ -147,8 +147,8 @@
             </div>
 
             <nav class="flex items-center space-x-8">
-                <a href="home.jsp" class="text-gray-700 hover:text-primary transition-colors font-medium">首页</a>
-                <a href="#courses" class="text-gray-700 hover:text-primary transition-colors font-medium">课程培训</a>
+                <a href="home" class="text-gray-700 hover:text-primary transition-colors font-medium">首页</a>
+                <a href="courses" class="text-gray-700 hover:text-primary transition-colors font-medium">课程培训</a>
                 <a href="#consulting" class="text-gray-700 hover:text-primary transition-colors font-medium">职业规划咨询</a>
                 <a href="#tests" class="text-gray-700 hover:text-primary transition-colors font-medium">职业测评</a>
                 <a href="#teachers" class="text-gray-700 hover:text-primary transition-colors font-medium">师资团队</a>
@@ -365,105 +365,7 @@
 </main>
 
 <!-- 底部信息区 -->
-<footer class="bg-dark text-white pt-16 pb-8">
-    <div class="container mx-auto px-8">
-        <div class="grid grid-cols-4 gap-8 mb-12">
-            <!-- 联系信息 -->
-            <div>
-                <div class="flex items-center space-x-2 mb-6">
-                    <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white">
-                        <i class="fa fa-rocket text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold">新精英生涯</h3>
-                        <p class="text-gray-400 text-sm">成长，长成自己的样子</p>
-                    </div>
-                </div>
-
-                <div class="space-y-4 mb-6">
-                    <div class="flex items-start space-x-3">
-                        <i class="fa fa-map-marker text-primary mt-1"></i>
-                        <p class="text-gray-400">中国（上海）自由贸易试验区奥纳路55号1幢607室</p>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <i class="fa fa-phone text-primary"></i>
-                        <p class="text-gray-400">400-0000-182（24小时免费咨询）</p>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <i class="fa fa-clock-o text-primary"></i>
-                        <p class="text-gray-400">周一至周日 9:00-21:00</p>
-                    </div>
-                </div>
-
-                <div class="flex space-x-4">
-                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-weibo"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-wechat"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-linkedin"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-youtube-play"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- 快捷入口 -->
-            <div>
-                <h3 class="text-lg font-bold mb-6">快捷入口</h3>
-                <ul class="space-y-3">
-                    <li><a href="#courses" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 课程试听申请</a></li>
-                    <li><a href="#consult" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 咨询师预约</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 学员登录</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 生涯测评工具</a></li>
-                    <li><a href="#stories" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 学员成功故事</a></li>
-                    <li><a href="#news" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 生涯资讯</a></li>
-                </ul>
-            </div>
-
-            <!-- 课程体系 -->
-            <div>
-                <h3 class="text-lg font-bold mb-6">课程体系</h3>
-                <ul class="space-y-3">
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 职业生涯规划-基石班</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 职业生涯咨询-实战班</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 一对一职业规划咨询</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 超级个体IP营</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 职业辅导「选对」平台</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 企业内训服务</a></li>
-                </ul>
-            </div>
-
-            <!-- 微信公众号 -->
-            <div>
-                <h3 class="text-lg font-bold mb-6">关注我们</h3>
-                <p class="text-gray-400 mb-4">扫描二维码，关注公众号获取更多生涯规划资讯</p>
-                <div class="bg-white p-4 rounded-lg inline-block mb-4">
-                    <img src="https://picsum.photos/id/1/120/120" alt="微信公众号二维码" class="w-32 h-32">
-                </div>
-                <p class="text-gray-400">IP创氪师</p>
-
-                <h3 class="text-lg font-bold mt-8 mb-4">下载APP</h3>
-                <p class="text-gray-400 mb-2">随时随地学习，开启你的职业成长之旅</p>
-                <div class="flex space-x-2">
-                    <a href="#" class="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-apple text-xl"></i>
-                    </a>
-                    <a href="#" class="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors">
-                        <i class="fa fa-android text-xl"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="border-t border-gray-700 pt-8 text-center text-gray-500 text-sm">
-            <p>© <%= new java.util.Date().getYear() + 1900 %> IP创氪师 版权所有</p>
-        </div>
-    </div>
-</footer>
+<jsp:include page="footer.jsp"/>
 
 
 <!-- 返回顶部按钮 -->
