@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <footer class="bg-dark text-white pt-16 pb-8">
   <div class="container mx-auto px-8">
     <div class="grid grid-cols-4 gap-8 mb-12">
@@ -57,7 +60,7 @@
         <h3 class="text-lg font-bold mb-6">快捷入口</h3>
         <ul class="space-y-3">
           <li><a href="#consult" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 咨询师预约</a></li>
-          <li><a href="login" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 学员登录</a></li>
+          <li><a href="login.jsp" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 学员登录</a></li>
           <li><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 生涯测评工具</a></li>
           <li><a href="chat" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> AI测评</a></li>
           <li><a href="#stories" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-angle-right mr-2 text-primary"></i> 学员成功故事</a></li>

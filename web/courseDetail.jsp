@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -249,7 +250,7 @@
             <div class="mt-2">
                 <!-- 显示折后价 -->
                 <span class="text-2xl font-bold text-secondary">
-                    ¥<fmt:formatNumber value="${courseMore.price * courseMore.discount}" pattern="#.##" />
+                    ¥<fmt:formatNumber value="${courseMore.price * courseMore.discount}" pattern="#0.00" />
                 </span>
 
                 <!-- 显示原价（划线） -->
