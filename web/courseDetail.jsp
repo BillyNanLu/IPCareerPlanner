@@ -229,7 +229,7 @@
     <!-- 封面区：课程标题 + 封面图 + 简介 -->
     <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <!-- 课程封面图 -->
-        <img src="image/courses/sample-cover.jpg" alt="课程封面图"
+        <img src="${pageContext.request.contextPath}${courseMore.image}" alt="课程封面图"
              class="w-full rounded-2xl shadow-md object-cover h-64 lg:h-96">
 
         <!-- 文本信息 -->
@@ -247,9 +247,19 @@
 
             <!-- 价格信息 -->
             <div class="mt-2">
-                <span class="text-2xl font-bold text-secondary">¥1299</span>
-                <span class="text-sm text-gray-400 ml-2 line-through">¥1999</span>
-                <span class="ml-2 text-sm bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">限时优惠</span>
+                <!-- 显示折后价 -->
+                <span class="text-2xl font-bold text-secondary">
+                    ¥<fmt:formatNumber value="${courseMore.price * courseMore.discount}" pattern="#.##" />
+                </span>
+
+                <!-- 显示原价（划线） -->
+                <span class="text-sm text-gray-400 ml-2 line-through">
+                    ¥<fmt:formatNumber value="${courseMore.price}" pattern="#.##" />
+                </span>
+
+                <span class="ml-2 text-sm bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
+                    限时优惠
+                </span>
             </div>
 
         </div>

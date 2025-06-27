@@ -2,6 +2,7 @@ package com.ip.dao;
 
 import com.ip.bean.CourseBean;
 import com.ip.bean.CourseCategoryBean;
+import com.ip.bean.CourseMoreBean;
 import com.ip.util.DBUtil;
 
 import java.sql.Connection;
@@ -84,7 +85,23 @@ public class CourseDao {
         return course;
     }
 
-
-
+    public CourseMoreBean findByIdMore(int id) {
+        CourseMoreBean course = null;
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT * FROM course_more WHERE course_id = ?")) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                course = new CourseMoreBean();
+                course.setId(rs.getInt("id"));
+                course.setImage(rs.getString("image"));
+                course.setPrice(rs.getDouble("price"));
+                course.setDiscount(rs.getDouble("discount"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return course;
+    }
 
 }

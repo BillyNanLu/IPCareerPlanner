@@ -1,6 +1,7 @@
 package com.ip.servlet;
 
 import com.ip.bean.CourseBean;
+import com.ip.bean.CourseMoreBean;
 import com.ip.bean.TeacherBean;
 import com.ip.dao.CourseDao;
 import com.ip.dao.TeacherDao;
@@ -30,7 +31,8 @@ public class CourseDetailServlet extends HttpServlet {
 
             CourseDao courseDao = new CourseDao();
             CourseBean course = courseDao.findByIdSingle(courseId);
-            if (course == null) {
+            CourseMoreBean courseMore = courseDao.findByIdMore(courseId);
+            if (course == null && courseMore == null) {
                 response.sendRedirect("courses");
                 return;
             }
@@ -40,6 +42,7 @@ public class CourseDetailServlet extends HttpServlet {
 
             // 即使 teacher 为空，也可以只在 JSP 判断是否展示老师信息
             request.setAttribute("course", course);
+            request.setAttribute("courseMore", courseMore);
             request.setAttribute("teachers", teacherList);
             request.getRequestDispatcher("/courseDetail.jsp").forward(request, response);
 
