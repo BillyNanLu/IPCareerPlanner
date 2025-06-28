@@ -37,6 +37,9 @@ public class CourseDetailServlet extends HttpServlet {
                 return;
             }
 
+            String msg = request.getParameter("msg");
+            request.setAttribute("msg", msg);
+
             TeacherDao teacherDao = new TeacherDao();
             List<TeacherBean> teacherList = teacherDao.findByCourseId(courseId);
 

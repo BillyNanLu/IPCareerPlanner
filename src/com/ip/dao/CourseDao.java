@@ -1,7 +1,6 @@
 package com.ip.dao;
 
 import com.ip.bean.CourseBean;
-import com.ip.bean.CourseCategoryBean;
 import com.ip.bean.CourseMoreBean;
 import com.ip.util.DBUtil;
 
@@ -10,9 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class CourseDao {
     public List<CourseBean> findAll() {
@@ -104,4 +101,13 @@ public class CourseDao {
         return course;
     }
 
+    // 为报名成功页提供课程主信息
+    public CourseBean findById(int id) {
+        return findByIdSingle(id);
+    }
+
+    // 为报名成功页提供课程图片和价格
+    public CourseMoreBean findMoreById(int courseId) {
+        return findByIdMore(courseId);
+    }
 }

@@ -39,7 +39,7 @@
         </div>
 
         <nav class="login-nav">
-            <a href="#">首页</a>
+            <a href="home">首页</a>
             <a href="courses">课程中心</a>
             <a href="#">关于我们</a>
             <a href="#" class="active">帮助中心</a>

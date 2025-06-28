@@ -219,6 +219,11 @@
 
 <!-- ✅ 主内容区：课程详情 -->
 <main class="container mx-auto px-6 py-20 space-y-16">
+    <c:if test="${not empty param.msg}">
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded">
+            <p>${param.msg}</p>
+        </div>
+    </c:if>
 
     <!-- 返回按钮 -->
     <div class="max-w-6xl mx-auto mb-6">
@@ -310,7 +315,7 @@
                    class="bg-secondary hover:bg-secondary/90 text-white text-base font-semibold px-6 py-3 rounded-full shadow transition-all flex-1">
                     课程咨询
                 </a>
-                <a href="#consult"
+                <a href="enroll?courseId=${course.id}"
                    class="bg-primary hover:bg-primary/90 text-white text-base font-semibold px-6 py-3 rounded-full shadow transition-all flex-1">
                     立即报名
                 </a>

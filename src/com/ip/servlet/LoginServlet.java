@@ -38,6 +38,14 @@ public class LoginServlet extends HttpServlet {
             request.getSession().setAttribute("loginUser", user);
             request.getSession().setAttribute("user_id", user.getUser_id());
 
+            // 登录成功后优先跳转 redirectAfterLogin（如从 enroll 跳转而来）
+            String redirectAfterLogin = (String) request.getSession().getAttribute("redirectAfterLogin");
+            if (redirectAfterLogin != null) {
+                request.getSession().removeAttribute("redirectAfterLogin");
+                response.sendRedirect(redirectAfterLogin);
+                return;
+            }
+
             // 判断是否存在回跳参数，优先回跳
             if ("chat".equals(redirect)) {
                 response.sendRedirect("chat");
