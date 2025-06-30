@@ -11,6 +11,8 @@ public class CourseOrderBean {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime paidAt;
+    private String course_name;
+    private String username;
 
     public CourseOrderBean() {
     }
@@ -154,7 +156,35 @@ public class CourseOrderBean {
         this.paidAt = paidAt;
     }
 
+    public String getCourse_name() {
+        return course_name;
+    }
+
+    public void setCourse_name(String course_name) {
+        this.course_name = course_name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
     public String toString() {
-        return "CourseOrderBean{id = " + id + ", order_no = " + order_no + ", course_id = " + course_id + ", user_id = " + user_id + ", pay_method = " + pay_method + ", status = " + status + ", createdAt = " + createdAt + ", paidAt = " + paidAt + "}";
+        return "CourseOrderBean{" +
+                "id=" + id +
+                ", order_no='" + order_no + '\'' +
+                ", course_id=" + course_id +
+                ", user_id=" + user_id +
+                ", pay_method='" + pay_method + '\'' +
+                ", status='" + status + '\'' +
+                ", createdAt=" + createdAt +
+                ", paidAt=" + paidAt +
+                ", course_name='" + course_name + '\'' +
+                ", username='" + username + '\'' +
+                '}';
     }
 }

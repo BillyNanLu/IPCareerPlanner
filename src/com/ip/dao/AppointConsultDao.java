@@ -2,15 +2,14 @@ package com.ip.dao;
 
 import com.ip.bean.AppointConsultBean;
 import com.ip.util.DBUtil;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppointConsultDao {
 
-    // 添加预约
+    // 添加申请
     public boolean addAppointConsult(String appoint_name, String appoint_phone, String appoint_description) {
         Connection conn = null;
         CallableStatement cs = null;
@@ -48,6 +47,149 @@ public class AppointConsultDao {
 
         return success;
     }
+
+
+    // 获取所有申请
+    public static List<AppointConsultBean> getAllConsults() {
+        List<AppointConsultBean> list = new ArrayList<>();
+        String sql = "SELECT id, appointment_id, name, phone, description, created_at FROM appoint_consult ORDER BY created_at DESC";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                AppointConsultBean bean = new AppointConsultBean();
+                bean.setId(rs.getInt("id"));
+                bean.setAppointment_id(rs.getString("appointment_id"));
+                bean.setName(rs.getString("name"));
+                bean.setPhone(rs.getString("phone"));
+                bean.setDescription(rs.getString("description"));
+                Timestamp ts = rs.getTimestamp("created_at");
+                if (ts != null) {
+                    bean.setCreated_at(ts.toLocalDateTime());
+                }
+                list.add(bean);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    // 删除某一行申请
+    public static void deleteConsultById(int id) {
+        String sql = "DELETE FROM appoint_consult WHERE id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    // 搜索申请
+    public static List<AppointConsultBean> searchConsults(String keyword) {
+        List<AppointConsultBean> list = new ArrayList<>();
+        String sql = "SELECT id, appointment_id, name, phone, description, created_at FROM appoint_consult WHERE name LIKE ? OR phone LIKE ? ORDER BY created_at DESC";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            String likeKeyword = "%" + keyword + "%";
+            stmt.setString(1, likeKeyword);
+            stmt.setString(2, likeKeyword);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    AppointConsultBean bean = new AppointConsultBean();
+                    bean.setId(rs.getInt("id"));
+                    bean.setAppointment_id(rs.getString("appointment_id"));
+                    bean.setName(rs.getString("name"));
+                    bean.setPhone(rs.getString("phone"));
+                    bean.setDescription(rs.getString("description"));
+                    Timestamp ts = rs.getTimestamp("created_at");
+                    if (ts != null) {
+                        bean.setCreated_at(ts.toLocalDateTime());
+                    }
+                    list.add(bean);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+
+    public static int countConsults(String keyword) {
+        String sql = "SELECT COUNT(*) FROM appoint_consult";
+        if (keyword != null && !keyword.isEmpty()) {
+            sql += " WHERE name LIKE ? OR phone LIKE ?";
+        }
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            if (keyword != null && !keyword.isEmpty()) {
+                String like = "%" + keyword + "%";
+                stmt.setString(1, like);
+                stmt.setString(2, like);
+            }
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static List<AppointConsultBean> getConsultsByPage(String keyword, int page, int pageSize) {
+        List<AppointConsultBean> list = new ArrayList<>();
+        String sql = "SELECT * FROM appoint_consult";
+        if (keyword != null && !keyword.isEmpty()) {
+            sql += " WHERE name LIKE ? OR phone LIKE ?";
+        }
+        sql += " ORDER BY created_at DESC LIMIT ?, ?";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            int paramIndex = 1;
+            if (keyword != null && !keyword.isEmpty()) {
+                String like = "%" + keyword + "%";
+                stmt.setString(paramIndex++, like);
+                stmt.setString(paramIndex++, like);
+            }
+
+            stmt.setInt(paramIndex++, (page - 1) * pageSize);
+            stmt.setInt(paramIndex, pageSize);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                AppointConsultBean bean = new AppointConsultBean();
+                bean.setId(rs.getInt("id"));
+                bean.setAppointment_id(rs.getString("appointment_id"));
+                bean.setName(rs.getString("name"));
+                bean.setPhone(rs.getString("phone"));
+                bean.setDescription(rs.getString("description"));
+                bean.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+                list.add(bean);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+
 
 
 }

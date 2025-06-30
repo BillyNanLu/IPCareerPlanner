@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 
             // 否则按角色跳转
             if (user.getRole_id() == 1 || user.getRole_id() == 2) {
-                response.sendRedirect("admin.jsp");
+                response.sendRedirect("adminDashboard");
             } else {
                 response.sendRedirect("home.jsp");
             }

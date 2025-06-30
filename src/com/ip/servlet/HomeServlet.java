@@ -1,6 +1,5 @@
 package com.ip.servlet;
 
-import com.ip.bean.AppointConsultBean;
 import com.ip.bean.CourseBean;
 import com.ip.bean.TeacherBean;
 import com.ip.dao.AppointConsultDao;
