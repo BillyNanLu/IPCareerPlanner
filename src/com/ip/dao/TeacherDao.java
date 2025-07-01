@@ -13,6 +13,32 @@ import java.util.List;
 
 public class TeacherDao {
 
+    public static List<TeacherBean> findAll() {
+        List<TeacherBean> teacherList = new ArrayList<>();
+        String sql = "SELECT * FROM teacher";
+
+        try {
+            Connection conn = DBUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                TeacherBean teacher = new TeacherBean();
+                teacher.setId(rs.getInt("id"));
+                teacher.setName(rs.getString("name"));
+                teacher.setTitle(rs.getString("title"));
+                teacher.setDepartment(rs.getString("department"));
+                teacher.setExpertise(rs.getString("expertise"));
+                teacher.setProfile(rs.getString("profile"));
+                teacher.setImgage(rs.getString("imgage"));
+                teacherList.add(teacher);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return teacherList;
+    }
+
     public List<TeacherBean> findByCourseId(int courseId) {
         List<TeacherBean> teacherList = new ArrayList<>();
         try (Connection conn = DBUtil.getConnection();

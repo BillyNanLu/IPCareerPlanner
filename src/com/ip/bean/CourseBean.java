@@ -1,6 +1,8 @@
 package com.ip.bean;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class CourseBean {
     private int id;
@@ -12,6 +14,15 @@ public class CourseBean {
     private String recommendation;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+
+    private String image;
+    private BigDecimal price;
+    private BigDecimal discount;
+
+    private String fullCategoryPath;
+    private List<String> teachers;
+
+    private List<Integer> teacherIds;
 
     public CourseBean() {
     }
@@ -172,7 +183,72 @@ public class CourseBean {
         this.updateTime = updateTime;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+    }
+
+    public String getFullCategoryPath() {
+        return fullCategoryPath;
+    }
+
+    public void setFullCategoryPath(String fullCategoryPath) {
+        this.fullCategoryPath = fullCategoryPath;
+    }
+
+    public List<String> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<String> teachers) {
+        this.teachers = teachers;
+    }
+
+    public List<Integer> getTeacherIds() {
+        return teacherIds;
+    }
+
+    public void setTeacherIds(List<Integer> teacherIds) {
+        this.teacherIds = teacherIds;
+    }
+
+    @Override
     public String toString() {
-        return "CourseBean{id = " + id + ", categoryId = " + categoryId + ", name = " + name + ", tags = " + tags + ", intro = " + intro + ", targetUser = " + targetUser + ", recommendation = " + recommendation + ", createTime = " + createTime + ", updateTime = " + updateTime + "}";
+        return "CourseBean{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", name='" + name + '\'' +
+                ", tags='" + tags + '\'' +
+                ", intro='" + intro + '\'' +
+                ", targetUser='" + targetUser + '\'' +
+                ", recommendation='" + recommendation + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", image='" + image + '\'' +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", fullCategoryPath='" + fullCategoryPath + '\'' +
+                ", teachers=" + teachers +
+                ", teacherIds=" + teacherIds +
+                '}';
     }
 }

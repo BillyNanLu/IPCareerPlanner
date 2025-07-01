@@ -26,8 +26,8 @@
                 <summary class="px-3 py-2 rounded cursor-pointer hover:bg-gray-700">📚 课程管理</summary>
                 <div class="ml-4 mt-2 space-y-1">
                     <a href="courseOrders" class="block px-2 py-1 rounded hover:bg-gray-700">· 课程订单</a>
-                    <a href="category_list.jsp" class="block px-2 py-1 rounded hover:bg-gray-700">· 课程类别管理</a>
-                    <a href="course_list.jsp" class="block px-2 py-1 rounded hover:bg-gray-700">· 课程信息管理</a>
+                    <a href="categoryList" class="block px-2 py-1 rounded hover:bg-gray-700">· 课程类别管理</a>
+                    <a href="courseList" class="block px-2 py-1 rounded hover:bg-gray-700">· 课程信息管理</a>
                 </div>
             </details>
         </div>

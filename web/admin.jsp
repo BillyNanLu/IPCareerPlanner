@@ -156,7 +156,7 @@
     <a href="user_list.jsp" class="bg-green-600 hover:bg-green-700 text-white rounded-xl shadow p-6 text-center font-semibold">
       👥 用户管理
     </a>
-    <a href="consultation_list.jsp" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-xl shadow p-6 text-center font-semibold">
+    <a href="consultationList" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-xl shadow p-6 text-center font-semibold">
       📋 首页咨询申请
     </a>
   </div>
