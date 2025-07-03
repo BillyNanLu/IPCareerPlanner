@@ -16,6 +16,8 @@ public class UsersBean {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
+    private String roleName;
+
     public UsersBean() {
     }
 
@@ -211,7 +213,30 @@ public class UsersBean {
         this.updated_at = updated_at;
     }
 
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    @Override
     public String toString() {
-        return "UsersBean{user_id = " + user_id + ", username = " + username + ", gender = " + gender + ", phone = " + phone + ", password = " + password + ", email = " + email + ", avatar = " + avatar + ", status = " + status + ", role_id = " + role_id + ", last_login = " + last_login + ", created_at = " + created_at + ", updated_at = " + updated_at + "}";
+        return "UsersBean{" +
+                "user_id=" + user_id +
+                ", username='" + username + '\'' +
+                ", gender='" + gender + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", status=" + status +
+                ", role_id=" + role_id +
+                ", last_login=" + last_login +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                ", roleName='" + roleName + '\'' +
+                '}';
     }
 }

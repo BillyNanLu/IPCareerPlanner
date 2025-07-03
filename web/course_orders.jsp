@@ -6,7 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 
 <html>
 <head>
@@ -55,7 +58,7 @@
                 <th class="px-6 py-3">课程名称</th>
                 <th class="px-6 py-3">用户名</th>
                 <th class="px-6 py-3">支付方式</th>
-                <th class="px-6 py-3">支付状态</th>
+                <th class="px-6 py-3 whitespace-nowrap">支付状态</th>
                 <th class="px-6 py-3">下单时间</th>
                 <th class="px-6 py-3">支付时间</th>
                 <th class="px-6 py-3 w-24">操作</th>
@@ -64,22 +67,18 @@
             <tbody>
             <c:forEach var="order" items="${orderList}">
                 <tr class="border-b hover:bg-gray-50">
-<%--                    <td class="px-6 py-4 max-w-xs truncate font-mono text-blue-700">${order.order_no}</td>--%>
-                    <td class="px-6 py-4 max-w-xs truncate font-mono text-blue-700" title="${order.order_no}">
+                    <td class="px-6 py-4 max-w-xs truncate font-mono text-blue-700 whitespace-nowrap" title="${order.order_no}">
                             ${order.order_no}
                     </td>
-                    <td class="px-6 py-4">${order.course_name}</td>
-                    <td class="px-6 py-4">${order.username}</td>
-                    <td class="px-6 py-4">${order.pay_method}</td>
-                    <td class="px-6 py-4">${order.status}</td>
-                    <td class="px-6 py-4">${order.createdAt}</td>
-                    <td class="px-6 py-4">${order.paidAt != null ? order.paidAt : '-'}</td>
-                    <td class="px-6 py-4 space-x-2">
-                        <button onclick="showDetails(${order.id})"
-                                class="text-blue-600 hover:underline">详情
-                        </button>
-                        <form method="post" action="courseOrdersDelete" class="inline"
-                              onsubmit="return confirm('确定删除该订单吗？');">
+                    <td class="px-6 py-4 whitespace-nowrap">${order.course_name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${order.username}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${order.pay_method}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${order.status}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${order.createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${order.paidAt != null ? order.paidAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : '-'}</td>
+                    <td class="px-6 py-4 space-x-2 whitespace-nowrap">
+                        <button onclick="showDetails(${order.id})" class="text-blue-600 hover:underline">详情</button>
+                        <form method="post" action="courseOrdersDelete" class="inline" onsubmit="return confirm('确定删除该订单吗？');">
                             <input type="hidden" name="id" value="${order.id}"/>
                             <button type="submit" class="text-red-600 hover:underline">删除</button>
                         </form>
@@ -88,7 +87,7 @@
             </c:forEach>
             <c:if test="${empty orderList}">
                 <tr>
-                    <td colspan="7" class="text-center text-gray-400 py-6">暂无订单</td>
+                    <td colspan="8" class="text-center text-gray-400 py-6">暂无订单</td>
                 </tr>
             </c:if>
             </tbody>
@@ -108,7 +107,7 @@
 </div>
 
 <!-- 订单详情弹窗 -->
-<div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+<div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-lg max-w-lg w-full p-6 relative shadow-lg">
         <button onclick="closeDetails()"
                 class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold leading-none">&times;</button>
@@ -120,7 +119,7 @@
 
 <script>
     function showDetails(orderId) {
-        fetch('/admin/api/order-detail?id=' + orderId)
+        fetch('courseOrders?id=' + orderId)
             .then(res => res.json())
             .then(data => {
                 let content = `

@@ -95,4 +95,128 @@ public class TeacherDao {
         return teacherList;
     }
 
+
+    // 获取总数量（可带搜索）
+    public static int getTeacherCount(String keyword) {
+        String sql = "SELECT COUNT(*) FROM teacher WHERE name LIKE ? OR title LIKE ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            String kw = "%" + keyword + "%";
+            stmt.setString(1, kw);
+            stmt.setString(2, kw);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // 分页查询教师
+    public static List<TeacherBean> getTeachers(String keyword, int offset, int limit) {
+        List<TeacherBean> list = new ArrayList<>();
+        String sql = "SELECT * FROM teacher WHERE name LIKE ? OR title LIKE ? ORDER BY updated_at DESC LIMIT ?, ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            String kw = "%" + keyword + "%";
+            stmt.setString(1, kw);
+            stmt.setString(2, kw);
+            stmt.setInt(3, offset);
+            stmt.setInt(4, limit);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                TeacherBean t = new TeacherBean();
+                t.setId(rs.getInt("id"));
+                t.setName(rs.getString("name"));
+                t.setTitle(rs.getString("title"));
+                t.setDepartment(rs.getString("department"));
+                t.setExpertise(rs.getString("expertise"));
+                t.setProfile(rs.getString("profile"));
+                t.setImgage(rs.getString("imgage"));
+                t.setCreatedTime(rs.getTimestamp("created_at").toLocalDateTime());
+                t.setUpdatedTime(rs.getTimestamp("updated_at").toLocalDateTime());
+                list.add(t);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    public static boolean addTeacher(TeacherBean teacher) {
+        String sql = "INSERT INTO teacher (name, title, department, expertise, profile, imgage) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, teacher.getName());
+            ps.setString(2, teacher.getTitle());
+            ps.setString(3, teacher.getDepartment());
+            ps.setString(4, teacher.getExpertise());
+            ps.setString(5, teacher.getProfile());
+            ps.setString(6, teacher.getImgage());
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean updateTeacher(TeacherBean teacher) {
+        String sql = "UPDATE teacher SET name = ?, title = ?, department = ?, expertise = ?, profile = ?, imgage = ?, updated_at = NOW() WHERE id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, teacher.getName());
+            ps.setString(2, teacher.getTitle());
+            ps.setString(3, teacher.getDepartment());
+            ps.setString(4, teacher.getExpertise());
+            ps.setString(5, teacher.getProfile());
+            ps.setString(6, teacher.getImgage());
+            ps.setInt(7, teacher.getId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static TeacherBean getTeacherById(int id) {
+        String sql = "SELECT * FROM teacher WHERE id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                TeacherBean t = new TeacherBean();
+                t.setId(rs.getInt("id"));
+                t.setName(rs.getString("name"));
+                t.setTitle(rs.getString("title"));
+                t.setDepartment(rs.getString("department"));
+                t.setExpertise(rs.getString("expertise"));
+                t.setProfile(rs.getString("profile"));
+                t.setImgage(rs.getString("imgage"));
+                t.setCreatedTime(rs.getTimestamp("created_at").toLocalDateTime());
+                t.setUpdatedTime(rs.getTimestamp("updated_at").toLocalDateTime());
+                return t;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean deleteTeacherById(int id) {
+        String sql = "DELETE FROM teacher WHERE id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }

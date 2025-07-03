@@ -150,10 +150,10 @@
 
   <!-- 快捷入口模块 -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <a href="course_list.jsp" class="bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow p-6 text-center font-semibold">
+    <a href="courseList" class="bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow p-6 text-center font-semibold">
       📚 课程信息管理
     </a>
-    <a href="user_list.jsp" class="bg-green-600 hover:bg-green-700 text-white rounded-xl shadow p-6 text-center font-semibold">
+    <a href="userList" class="bg-green-600 hover:bg-green-700 text-white rounded-xl shadow p-6 text-center font-semibold">
       👥 用户管理
     </a>
     <a href="consultationList" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-xl shadow p-6 text-center font-semibold">

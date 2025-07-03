@@ -91,7 +91,14 @@
                 <a href="chat" class="text-gray-700 hover:text-primary transition-colors font-medium">职业规划咨询</a>
                 <a href="#tests" class="text-gray-700 hover:text-primary transition-colors font-medium">职业测评</a>
                 <a href="#teachers" class="text-gray-700 hover:text-primary transition-colors font-medium">师资团队</a>
-                <a href="#my" class="text-gray-700 hover:text-primary transition-colors font-medium">个人中心</a>
+                <c:choose>
+                    <c:when test="${loginUser.role_id == 1 || loginUser.role_id == 2}">
+                        <a href="adminDashboard" class="text-gray-700 hover:text-primary transition-colors font-medium">工作台</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="#my" class="text-gray-700 hover:text-primary transition-colors font-medium">个人中心</a>
+                    </c:otherwise>
+                </c:choose>
             </nav>
 
             <div class="flex items-center space-x-4">

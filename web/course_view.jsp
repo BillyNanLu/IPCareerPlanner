@@ -41,13 +41,13 @@
             </div>
 
             <div class="flex items-center space-x-4 border-t pt-2">
-        <span class="text-primary text-xl font-semibold">
-          ¥<fmt:formatNumber value="${course.price}" minFractionDigits="2" />
-        </span>
+                <span class="text-primary text-xl font-semibold">
+                    ¥<fmt:formatNumber value="${course.price}" minFractionDigits="2" />
+                </span>
                 <c:if test="${course.discount < 1}">
-          <span class="text-sm text-gray-400 line-through">
-            ¥<fmt:formatNumber value="${course.price * course.discount}" minFractionDigits="2" />
-          </span>
+                  <span class="text-sm text-gray-400 line-through">
+                      ¥<fmt:formatNumber value="${course.price * course.discount}" minFractionDigits="2" />
+                  </span>
                 </c:if>
             </div>
 

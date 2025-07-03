@@ -6,6 +6,7 @@ import com.ip.bean.TeacherBean;
 import com.ip.dao.*;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @WebServlet("/courseEdit")
+@MultipartConfig
 public class CourseEditServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
