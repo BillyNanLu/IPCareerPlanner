@@ -24,6 +24,8 @@ public class CourseBean {
 
     private List<Integer> teacherIds;
 
+    private String categoryName;
+
     public CourseBean() {
     }
 
@@ -231,6 +233,14 @@ public class CourseBean {
         this.teacherIds = teacherIds;
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     @Override
     public String toString() {
         return "CourseBean{" +
@@ -249,6 +259,7 @@ public class CourseBean {
                 ", fullCategoryPath='" + fullCategoryPath + '\'' +
                 ", teachers=" + teachers +
                 ", teacherIds=" + teacherIds +
+                ", categoryName='" + categoryName + '\'' +
                 '}';
     }
 }

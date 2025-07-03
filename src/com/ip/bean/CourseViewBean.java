@@ -10,6 +10,7 @@ public class CourseViewBean {
     private String tags;
     private String image;
     private String categoryName;
+    private int categoryId;
     private String fullCategoryPath;
     private List<String> teachers;
     private BigDecimal price;
@@ -94,6 +95,14 @@ public class CourseViewBean {
      */
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     /**
@@ -192,7 +201,20 @@ public class CourseViewBean {
         this.createdAt = createdAt;
     }
 
+    @Override
     public String toString() {
-        return "CourseViewBean{id = " + id + ", name = " + name + ", tags = " + tags + ", image = " + image + ", categoryName = " + categoryName + ", fullCategoryPath = " + fullCategoryPath + ", teachers = " + teachers + ", price = " + price + ", discount = " + discount + ", createdAt = " + createdAt + "}";
+        return "CourseViewBean{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", tags='" + tags + '\'' +
+                ", image='" + image + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", categoryId=" + categoryId +
+                ", fullCategoryPath='" + fullCategoryPath + '\'' +
+                ", teachers=" + teachers +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

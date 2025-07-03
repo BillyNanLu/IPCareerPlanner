@@ -15,6 +15,7 @@ import java.util.List;
 public class CourseListServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public CourseListServlet() {}
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<CourseViewBean> courseList = CourseDao.getAllCoursesView();
         request.setAttribute("courseList", courseList);

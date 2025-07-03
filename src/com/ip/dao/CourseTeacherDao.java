@@ -63,5 +63,26 @@ public class CourseTeacherDao {
         return list;
     }
 
+
+    public static List<String> getTeacherNamesByCourseId(int courseId) {
+        List<String> teacherNames = new ArrayList<>();
+        String sql = "SELECT t.name FROM course_teacher ct " +
+                "JOIN teacher t ON ct.teacher_id = t.id " +
+                "WHERE ct.course_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, courseId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                teacherNames.add(rs.getString("name"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return teacherNames;
+    }
+
+
 }
 

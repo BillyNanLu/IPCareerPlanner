@@ -14,84 +14,98 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @WebServlet("/courseEdit")
 public class CourseEditServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        int id = Integer.parseInt(request.getParameter("id"));
-        CourseBean course = CourseDao.getCourseById(id);
-
-        List<CourseCategoryBean> allCategories = CourseCategoryDao.getAllCategories();
-        List<TeacherBean> allTeachers = TeacherDao.findAll();
-
-        // 转换 teacherId 列表为 Set 以供 JSP 中使用 contains
-        Set<Integer> teacherIdSet = new HashSet<>(course.getTeacherIds());
-
+    // 统一转发到编辑页面
+    private void forwardToEditPage(HttpServletRequest request, HttpServletResponse response, CourseBean course, String msg) throws ServletException, IOException {
         request.setAttribute("course", course);
-        request.setAttribute("allCategories", allCategories);
-        request.setAttribute("allTeachers", allTeachers);
-        request.setAttribute("teacherIdSet", teacherIdSet);
+        request.setAttribute("msg", msg);
+        request.setAttribute("allCategories", CourseCategoryDao.getAllCategories());
+        request.setAttribute("allTeachers", TeacherDao.findAll());
+
+        if (course != null && course.getTeacherIds() != null) {
+            request.setAttribute("teacherIdSet", new HashSet<>(course.getTeacherIds()));
+        }
 
         request.getRequestDispatcher("course_edit.jsp").forward(request, response);
     }
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String idStr = request.getParameter("id");
+        CourseBean course = new CourseBean(); // 空对象用于添加
+
+        if (idStr != null && !idStr.trim().isEmpty()) {
+            try {
+                int id = Integer.parseInt(idStr);
+                course = CourseDao.getCourseById(id);
+                if (course == null) {
+                    request.setAttribute("msg", "未找到课程");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                request.setAttribute("msg", "ID 参数错误");
+                return;
+            }
+        }
+
+        forwardToEditPage(request, response, course, null);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 1. 设置编码
         request.setCharacterEncoding("UTF-8");
 
-        // 2. 获取表单数据
-        //int id = Integer.parseInt(request.getParameter("id"));
+        // 初始化课程实体
+        CourseBean course = new CourseBean();
+
+        // 课程ID
         String idStr = request.getParameter("id");
         int id = 0;
         try {
-            if (idStr != null && !idStr.trim().isEmpty()) {
+            if (idStr != null && !idStr.isEmpty()) {
                 id = Integer.parseInt(idStr.trim());
+                course.setId(id);
             }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            request.setAttribute("msg", "课程 ID 参数有误！");
-            request.getRequestDispatcher("courseList").forward(request, response);
+        } catch (Exception e) {
+            forwardToEditPage(request, response, null, "课程ID无效");
             return;
         }
 
-        String name = request.getParameter("name");
+        // 课程名称
+        course.setName(request.getParameter("name"));
 
-        //int categoryId = Integer.parseInt(request.getParameter("category_id"));
+        // 分类ID
         String catStr = request.getParameter("category_id");
-        int categoryId = 0;
-        if (catStr != null && !catStr.isEmpty()) {
-            categoryId = Integer.parseInt(catStr);
-        } else {
-            // 你可以选择报错、跳转回去、或给默认值
-            request.setAttribute("msg", "分类不能为空");
-            request.getRequestDispatcher("courseList").forward(request, response);
+        if (catStr == null || catStr.isEmpty()) {
+            forwardToEditPage(request, response, course, "分类不能为空");
             return;
         }
+        course.setCategoryId(Integer.parseInt(catStr));
 
-        String tags = request.getParameter("tags");
-        String targetUser = request.getParameter("target_user");
-        String recommendation = request.getParameter("recommendation");
-        double price = 0;
-        double discount = 1;
+        // 标签 / 简要信息
+        course.setTags(request.getParameter("tags"));
+        course.setTargetUser(request.getParameter("target_user"));
+        course.setRecommendation(request.getParameter("recommendation"));
+
+        // 价格和折扣
+        try {
+            course.setPrice(new BigDecimal(request.getParameter("price")));
+        } catch (Exception ignored) {
+            course.setPrice(BigDecimal.ZERO);
+        }
 
         try {
-            price = Double.parseDouble(request.getParameter("price"));
-        } catch (Exception e) {}
+            course.setDiscount(new BigDecimal(request.getParameter("discount")));
+        } catch (Exception ignored) {
+            course.setDiscount(BigDecimal.ONE);
+        }
 
-        try {
-            discount = Double.parseDouble(request.getParameter("discount"));
-        } catch (Exception e) {}
-
-        // 3. 处理讲师多选参数
+        // 多选讲师
         String[] teacherIdsStr = request.getParameterValues("teacher_ids");
         List<Integer> teacherIds = new ArrayList<>();
         if (teacherIdsStr != null) {
@@ -101,57 +115,44 @@ public class CourseEditServlet extends HttpServlet {
                 } catch (NumberFormatException ignored) {}
             }
         }
+        course.setTeacherIds(teacherIds);
 
-        // 4. 处理封面图片上传
+        // 图片上传
         Part imagePart = request.getPart("image");
-        String imagePath = null;
         if (imagePart != null && imagePart.getSize() > 0) {
             String filename = System.currentTimeMillis() + "_" + imagePart.getSubmittedFileName();
-            // 注意：这里路径请根据你的项目结构调整
             String uploadPath = request.getServletContext().getRealPath("/image/courses");
             File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
+            if (!uploadDir.exists()) uploadDir.mkdirs();
+
             File file = new File(uploadDir, filename);
             imagePart.write(file.getAbsolutePath());
-            imagePath = "/image/courses/" + filename;
+
+            course.setImage("/image/courses/" + filename);
         }
 
-        // 5. 构造 CourseBean，更新数据
-        CourseBean course = new CourseBean();
-        course.setId(id);
-        course.setName(name);
-        course.setCategoryId(categoryId);
-        course.setTags(tags);
-        course.setTargetUser(targetUser);
-        course.setRecommendation(recommendation);
-
-        // 课程详细表 (CourseMore)
-        course.setPrice(new BigDecimal(price));
-        course.setDiscount(new BigDecimal(discount));
-
-        // 如果上传了图片，覆盖旧图
-        if (imagePath != null) {
-            course.setImage(imagePath);
+        // 插入/更新课程数据
+        if (id == 0) {
+            int newId = CourseDao.insertCourse(course); // insert 返回新 ID
+            course.setId(newId);
+            if (newId <= 0) {
+                forwardToEditPage(request, response, course, "课程新增失败");
+                return;
+            }
         } else {
-            // 不上传图片时，保持原图
-            // 你可以自行设计 Dao 层默认不改 image 字段或传旧图路径
+            CourseDao.updateCourse(course);
         }
 
-        // 6. 调用 Dao 更新课程信息
-        CourseDao.updateCourse(course);
-
-        // 7. 先删除旧讲师关联，后插入新讲师关联（多对多）
-        CourseTeacherDao.deleteByCourseId(id);
+        // 更新多对多关系
+        CourseTeacherDao.deleteByCourseId(course.getId());
         if (!teacherIds.isEmpty()) {
-            CourseTeacherDao.insertBatch(id, teacherIds);
+            CourseTeacherDao.insertBatch(course.getId(), teacherIds);
         }
 
-        // 8. 更新课程详细表（图片、价格、折扣）
+        // 更新详细表（课程图片、价格等）
         CourseMoreDao.updateByCourseId(course);
 
-        // 9. 重定向回课程列表页
+        // ✅ 保存成功，跳转列表页
         response.sendRedirect(request.getContextPath() + "/courseList");
 
     }
