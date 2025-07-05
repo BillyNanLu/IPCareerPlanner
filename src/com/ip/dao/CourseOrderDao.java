@@ -1,6 +1,8 @@
 package com.ip.dao;
 
 import com.ip.bean.CourseOrderBean;
+import com.ip.bean.CourseOrderViewBean;
+import com.ip.bean.EnrolledCourseBean;
 import com.ip.util.DBUtil;
 
 import java.sql.Connection;
@@ -209,6 +211,62 @@ public class CourseOrderDao {
             e.printStackTrace();
         }
         return false;
+    }
+
+
+    public static int countByUserId(int userId) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM course_order WHERE user_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) count = rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+
+    public static List<EnrolledCourseBean> getCoursesByUserId(int userId) {
+        List<EnrolledCourseBean> list = new ArrayList<>();
+
+        String sql = "SELECT co.course_id, c.name AS course_name, cm.image, " +
+                "co.status, co.order_no, co.pay_method, co.paid_at, cat.name AS category_name " +
+                "FROM course_order co " +
+                "JOIN course c ON co.course_id = c.id " +
+                "LEFT JOIN course_more cm ON c.id = cm.course_id " +
+                "LEFT JOIN course_category cat ON c.category_id = cat.id " +
+                "WHERE co.user_id = ? " +
+                "ORDER BY co.created_at DESC";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                EnrolledCourseBean course = new EnrolledCourseBean();
+                course.setCourseId(rs.getInt("course_id"));
+                course.setCourseName(rs.getString("course_name"));
+                course.setCoverImage(rs.getString("image"));
+                course.setStatus(rs.getString("status"));
+                course.setOrderNo(rs.getString("order_no"));
+                course.setPayMethod(rs.getString("pay_method"));
+                course.setCategoryName(rs.getString("category_name"));
+                Timestamp paid = rs.getTimestamp("paid_at");
+                if (paid != null) course.setPaidAt(paid.toLocalDateTime());
+
+                list.add(course);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
 }

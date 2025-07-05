@@ -62,6 +62,7 @@ public class UsersDao {
                 usersBean.setPhone(rs.getString("phone"));
                 usersBean.setEmail(rs.getString("email"));
                 usersBean.setAvatar(rs.getString("avatar"));
+                usersBean.setStatus(rs.getInt("status"));
                 usersBean.setRole_id(rs.getInt("role_id"));
                 // usersBean.setLast_login(rs.getTimestamp("last_login").toLocalDateTime());
                 Timestamp lastLoginTs = rs.getTimestamp("last_login");
@@ -351,7 +352,6 @@ public class UsersDao {
         user.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
         return user;
     }
-
 
 
 }

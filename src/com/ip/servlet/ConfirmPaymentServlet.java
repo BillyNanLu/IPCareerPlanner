@@ -9,6 +9,8 @@ import java.io.IOException;
 @WebServlet("/confirmPayment")
 public class ConfirmPaymentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("utf-8");
+
         String orderNo = request.getParameter("orderNo");
         String method = request.getParameter("method");
 

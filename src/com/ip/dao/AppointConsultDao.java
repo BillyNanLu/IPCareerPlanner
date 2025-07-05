@@ -188,7 +188,19 @@ public class AppointConsultDao {
         return list;
     }
 
-
+    public static int countByPhone(String phone) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM appoint_consult WHERE phone = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, phone);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) count = rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 
 
 

@@ -34,6 +34,7 @@
         <a href="adminDashboard" class="block px-3 py-2 rounded hover:bg-gray-700">🏠 管理员首页</a>
         <a href="consultationList" class="block px-3 py-2 rounded hover:bg-gray-700">📋 首页咨询申请</a>
         <a href="careerAppointments" class="block px-3 py-2 rounded hover:bg-gray-700">📅 职业规划预约</a>
+        <a href="aiChatList" class="block px-3 py-2 rounded hover:bg-gray-700">🤖 AI 聊天记录管理</a>
 
 
         <div>

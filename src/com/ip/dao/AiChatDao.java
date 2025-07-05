@@ -188,4 +188,100 @@ public class AiChatDao {
         }
     }
 
+
+    public static List<AiChatMessageBean> findChats(String keyword, String role, int offset, int limit) {
+        List<AiChatMessageBean> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                "SELECT a.*, u.username FROM ai_chat_history a JOIN users u ON a.user_id = u.user_id WHERE 1=1"
+        );
+
+        List<Object> params = new ArrayList<>();
+
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append(" AND (a.message LIKE ? OR u.username LIKE ?)");
+            params.add("%" + keyword + "%");
+            params.add("%" + keyword + "%");
+        }
+
+        if (role != null && !role.isEmpty()) {
+            sql.append(" AND a.role = ?");
+            params.add(role);
+        }
+
+        sql.append(" ORDER BY a.timestamp DESC LIMIT ?, ?");
+        params.add(offset);
+        params.add(limit);
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                AiChatMessageBean bean = new AiChatMessageBean();
+                bean.setId(rs.getInt("id"));
+                bean.setUserId(rs.getInt("user_id"));
+                bean.setUsername(rs.getString("username"));
+                bean.setRole(rs.getString("role"));
+                bean.setMessage(rs.getString("message"));
+                bean.setTimestamp(rs.getTimestamp("timestamp").toLocalDateTime());
+                list.add(bean);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static int countChats(String keyword, String role) {
+        StringBuilder sql = new StringBuilder(
+                "SELECT COUNT(*) FROM ai_chat_history a JOIN users u ON a.user_id = u.user_id WHERE 1=1"
+        );
+        List<Object> params = new ArrayList<>();
+
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append(" AND (a.message LIKE ? OR u.username LIKE ?)");
+            params.add("%" + keyword + "%");
+            params.add("%" + keyword + "%");
+        }
+
+        if (role != null && !role.isEmpty()) {
+            sql.append(" AND a.role = ?");
+            params.add(role);
+        }
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+
+    public static int countByUserId(int userId) {
+        String sql = "SELECT COUNT(*) FROM ai_chat_history WHERE user_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
 }

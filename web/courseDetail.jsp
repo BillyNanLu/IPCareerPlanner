@@ -173,11 +173,29 @@
 
             <nav class="flex items-center space-x-8">
                 <a href="home" class="text-gray-700 hover:text-primary transition-colors font-medium">首页</a>
-                <a href="courses" class="text-gray-700 hover:text-primary transition-colors font-medium">课程培训</a>
-                <a href="#consulting" class="text-gray-700 hover:text-primary transition-colors font-medium">职业规划咨询</a>
-                <a href="#tests" class="text-gray-700 hover:text-primary transition-colors font-medium">职业测评</a>
-                <a href="#teachers" class="text-gray-700 hover:text-primary transition-colors font-medium">师资团队</a>
-                <a href="#my" class="text-gray-700 hover:text-primary transition-colors font-medium">个人中心</a>
+                <a href="courses" class="text-gray-700 hover:text-primary transition-colors font-medium border-b-2 border-primary">课程培训</a>
+                <div class="relative group">
+                    <a href="consult.jsp" class="text-gray-700 hover:text-primary transition-colors font-medium">职业规划咨询</a>
+
+                    <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                        <a href="consult.jsp" class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary hover:text-white">
+                            一对一职业规划咨询
+                        </a>
+                        <a href="chat" class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary hover:text-white">
+                            AI职业规划咨询
+                        </a>
+                    </div>
+                </div>
+                <a href="evaluation.jsp" class="text-gray-700 hover:text-primary transition-colors font-medium">职业测评</a>
+                <a href="teachers" class="text-gray-700 hover:text-primary transition-colors font-medium">师资团队</a>
+                <c:choose>
+                    <c:when test="${loginUser.role_id == 1 || loginUser.role_id == 2}">
+                        <a href="adminDashboard" class="text-gray-700 hover:text-primary transition-colors font-medium">工作台</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="myProfile" class="text-gray-700 hover:text-primary transition-colors font-medium">个人中心</a>
+                    </c:otherwise>
+                </c:choose>
             </nav>
 
             <div class="flex items-center space-x-4">
@@ -208,7 +226,7 @@
                     </c:choose>
 
                     <a href="#consult"
-                       class="bg-secondary hover:bg-secondary/90 text-white px-5 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                       class="online-consult-btn bg-secondary hover:bg-secondary/90 text-white px-5 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                         课程咨询
                     </a>
                 </div>
@@ -312,7 +330,7 @@
             <!-- 按钮区域：响应式排列 -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center w-full">
                 <a href="#consult"
-                   class="bg-secondary hover:bg-secondary/90 text-white text-base font-semibold px-6 py-3 rounded-full shadow transition-all flex-1">
+                   class="online-consult-btn bg-secondary hover:bg-secondary/90 text-white text-base font-semibold px-6 py-3 rounded-full shadow transition-all flex-1">
                     课程咨询
                 </a>
                 <a href="enroll?courseId=${course.id}"
@@ -365,6 +383,53 @@
     <i class="fa fa-chevron-up"></i>
 </button>
 
+
+<!-- 在线咨询弹窗 -->
+<div id="online-consult-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center opacity-0 invisible transition-all duration-300">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 transform transition-all duration-300 scale-95 h-[80vh] flex flex-col">
+        <div class="p-4 bg-primary text-white flex justify-between items-center">
+            <h3 class="text-lg font-bold">在线咨询</h3>
+            <button id="close-consult-modal" class="text-white hover:text-gray-200"><i class="fa fa-times text-xl"></i></button>
+        </div>
+
+        <div id="chat-messages" class="p-4 overflow-y-auto flex-1">
+            <div class="flex items-start">
+                <img src="image/ai/ai_avatar.png" alt="客服头像" class="w-10 h-10 rounded-full object-cover mr-3">
+                <div class="bg-gray-100 rounded-lg p-3 max-w-[80%]">
+                    <p class="text-gray-700">您好！我是职业规划咨询客服，很高兴为您服务。请问有什么可以帮到您的吗？</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 border-t">
+            <div class="space-y-3">
+                <div class="flex gap-2">
+                    <input type="text" id="chat-input" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="输入您的问题...">
+                    <button id="send-message" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-colors"><i class="fa fa-paper-plane"></i></button>
+                </div>
+
+                <div class="space-y-2">
+                    <button class="quick-reply bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm transition-colors w-full text-left">我该如何选择咨询师？</button>
+                    <button class="quick-reply bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm transition-colors w-full text-left">线上咨询有效果吗？</button>
+                    <button class="quick-reply bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm transition-colors w-full text-left">咨询费用是多少？</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 补充CSS样式 -->
+<style>
+    #online-consult-modal {
+        align-items: flex-start;
+        padding-top: 10vh;
+    }
+    #chat-messages {
+        max-height: 100%;
+    }
+</style>
+
+
 <!-- JS 脚本 -->
 <script>
     // 返回顶部按钮逻辑
@@ -380,6 +445,113 @@
     });
     backToTopButton.addEventListener('click', () => {
         window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const onlineConsultModal = document.getElementById('online-consult-modal');
+        // 选择所有带有online-consult-btn类的在线咨询按钮
+        const onlineConsultBtns = document.querySelectorAll('.online-consult-btn');
+        const closeConsultModalBtn = document.getElementById('close-consult-modal');
+        const chatInput = document.getElementById('chat-input');
+        const sendMessageBtn = document.getElementById('send-message');
+        const quickReplies = document.querySelectorAll('.quick-reply');
+        const chatMessages = document.getElementById('chat-messages');
+
+        // 为每个在线咨询按钮添加点击事件
+        onlineConsultBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                onlineConsultModal.classList.remove('opacity-0', 'invisible');
+                onlineConsultModal.querySelector('div').classList.remove('scale-95');
+                onlineConsultModal.querySelector('div').classList.add('scale-100');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+        });
+
+        closeConsultModalBtn.addEventListener('click', () => {
+            onlineConsultModal.classList.add('opacity-0', 'invisible');
+            onlineConsultModal.querySelector('div').classList.remove('scale-100');
+            onlineConsultModal.querySelector('div').classList.add('scale-95');
+        });
+
+        onlineConsultModal.addEventListener('click', (e) => {
+            if (e.target === onlineConsultModal) {
+                onlineConsultModal.classList.add('opacity-0', 'invisible');
+                onlineConsultModal.querySelector('div').classList.remove('scale-100');
+                onlineConsultModal.querySelector('div').classList.add('scale-95');
+            }
+        });
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                // 创建用户消息元素
+                const userMessage = document.createElement('div');
+                userMessage.className = 'flex items-start justify-end mb-4';
+                // 使用textContent避免HTML注入，同时确保内容正确显示
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'bg-primary text-white rounded-lg p-3 max-w-[80%]';
+                messageDiv.textContent = message;
+
+                const avatarImg = document.createElement('img');
+                avatarImg.src = 'image/users/defaultavatars.jpg';
+                avatarImg.alt = '用户头像';
+                avatarImg.className = 'w-10 h-10 rounded-full object-cover ml-3';
+
+                userMessage.appendChild(messageDiv);
+                userMessage.appendChild(avatarImg);
+                chatMessages.appendChild(userMessage);
+
+                // 强制触发DOM重绘后滚动
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                // 双重确保滚动（处理浏览器渲染延迟）
+                setTimeout(() => {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 100);
+
+                // 模拟客服回复
+                setTimeout(() => {
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'flex items-start mb-4';
+
+                    const botAvatar = document.createElement('img');
+                    botAvatar.src = 'image/ai/ai_avatar.png';
+                    botAvatar.alt = '客服头像';
+                    botAvatar.className = 'w-10 h-10 rounded-full object-cover mr-3';
+
+                    const botMsgDiv = document.createElement('div');
+                    botMsgDiv.className = 'bg-gray-100 rounded-lg p-3 max-w-[80%]';
+                    botMsgDiv.textContent = '感谢您的咨询！我们的专业顾问将尽快为您解答。请问您还有其他问题吗？';
+
+                    botMessage.appendChild(botAvatar);
+                    botMessage.appendChild(botMsgDiv);
+                    chatMessages.appendChild(botMessage);
+
+                    // 客服回复后滚动
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    setTimeout(() => {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 100);
+                }, 1000);
+
+                chatInput.value = '';
+            }
+        }
+
+        sendMessageBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        quickReplies.forEach(reply => {
+            reply.addEventListener('click', () => {
+                chatInput.value = reply.textContent;
+                sendMessage();
+            });
+        });
     });
 
 

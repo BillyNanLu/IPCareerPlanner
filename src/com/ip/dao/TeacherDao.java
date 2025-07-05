@@ -218,5 +218,33 @@ public class TeacherDao {
         return false;
     }
 
+    public TeacherBean findById(int id) {
+        TeacherBean teacher = null;
+        String sql = "SELECT * FROM teacher WHERE id = ?";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                teacher = new TeacherBean();
+                teacher.setId(rs.getInt("id"));
+                teacher.setName(rs.getString("name"));
+                teacher.setTitle(rs.getString("title"));
+                teacher.setDepartment(rs.getString("department"));
+                teacher.setExpertise(rs.getString("expertise"));
+                teacher.setProfile(rs.getString("profile"));
+                teacher.setImgage(rs.getString("imgage"));
+                teacher.setCreatedTime(rs.getTimestamp("created_at").toLocalDateTime());
+                teacher.setUpdatedTime(rs.getTimestamp("updated_at").toLocalDateTime());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return teacher;
+    }
+
 
 }

@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
             if (user.getRole_id() == 1 || user.getRole_id() == 2) {
                 response.sendRedirect("adminDashboard");
             } else {
-                response.sendRedirect("home.jsp");
+                response.sendRedirect("home");
             }
 
         } else {

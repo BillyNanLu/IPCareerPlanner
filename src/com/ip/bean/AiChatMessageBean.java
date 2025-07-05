@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class AiChatMessageBean {
     private Integer id;
     private Integer userId;
+    private String username;
     private String role;
     private String message;
     private LocalDateTime timestamp;
@@ -51,6 +52,14 @@ public class AiChatMessageBean {
      */
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -101,7 +110,15 @@ public class AiChatMessageBean {
         this.timestamp = timestamp;
     }
 
+    @Override
     public String toString() {
-        return "AiChatMessageBean{id = " + id + ", userId = " + userId + ", role = " + role + ", message = " + message + ", timestamp = " + timestamp + "}";
+        return "AiChatMessageBean{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", username='" + username + '\'' +
+                ", role='" + role + '\'' +
+                ", message='" + message + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

@@ -148,11 +148,29 @@
 
             <nav class="flex items-center space-x-8">
                 <a href="home" class="text-gray-700 hover:text-primary transition-colors font-medium">首页</a>
-                <a href="courses" class="text-gray-700 hover:text-primary transition-colors font-medium">课程培训</a>
-                <a href="#consulting" class="text-gray-700 hover:text-primary transition-colors font-medium">职业规划咨询</a>
-                <a href="#tests" class="text-gray-700 hover:text-primary transition-colors font-medium">职业测评</a>
-                <a href="#teachers" class="text-gray-700 hover:text-primary transition-colors font-medium">师资团队</a>
-                <a href="#my" class="text-gray-700 hover:text-primary transition-colors font-medium">个人中心</a>
+                <a href="courses" class="text-gray-700 hover:text-primary transition-colors font-medium border-b-2 border-primary">课程培训</a>
+                <div class="relative group">
+                    <a href="consult.jsp" class="text-gray-700 hover:text-primary transition-colors font-medium">职业规划咨询</a>
+
+                    <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                        <a href="consult.jsp" class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary hover:text-white">
+                            一对一职业规划咨询
+                        </a>
+                        <a href="chat" class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary hover:text-white">
+                            AI职业规划咨询
+                        </a>
+                    </div>
+                </div>
+                <a href="evaluation.jsp" class="text-gray-700 hover:text-primary transition-colors font-medium">职业测评</a>
+                <a href="teachers" class="text-gray-700 hover:text-primary transition-colors font-medium">师资团队</a>
+                <c:choose>
+                    <c:when test="${loginUser.role_id == 1 || loginUser.role_id == 2}">
+                        <a href="adminDashboard" class="text-gray-700 hover:text-primary transition-colors font-medium">工作台</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="myProfile" class="text-gray-700 hover:text-primary transition-colors font-medium">个人中心</a>
+                    </c:otherwise>
+                </c:choose>
             </nav>
 
             <div class="flex items-center space-x-4">
