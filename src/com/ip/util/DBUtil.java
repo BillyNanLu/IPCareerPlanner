@@ -1,20 +1,32 @@
 package com.ip.util;
 
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 public class DBUtil {
-    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/IP";
-    private static final String USER = "root";
-    private static final String PASS = "lunan998998";
+    private static String JDBC_DRIVER;
+    private static String DB_URL;
+    private static String USER;
+    private static String PASS;
 
     static {
         try {
-            // 注册JDBC驱动
+            // 读取 db.properties 配置文件（确保在 classpath 下）
+            InputStream in = DBUtil.class.getClassLoader().getResourceAsStream("db.properties");
+            Properties props = new Properties();
+            props.load(in);
+
+            JDBC_DRIVER = props.getProperty("driver");
+            DB_URL = props.getProperty("url");
+            USER = props.getProperty("user");
+            PASS = props.getProperty("password");
+
+            // 注册 JDBC 驱动
             Class.forName(JDBC_DRIVER);
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new ExceptionInInitializerError("Failed to load MySQL JDBC driver");
+            throw new ExceptionInInitializerError("初始化数据库连接失败: " + e.getMessage());
         }
     }
 
