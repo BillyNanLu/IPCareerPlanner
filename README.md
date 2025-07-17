@@ -1,5 +1,7 @@
 # AI创氪师—人生规划导师（源码包）
 
+本项目为“IP创氪师”职业规划平台，基于 Java Web 技术开发，支持课程展示、用户注册与登录、AI 聊天咨询、课程报名支付、后台管理等功能模块。
+
 ## 准备环境
 
 1. JDK：建议使用 JDK 1.8+
@@ -31,7 +33,7 @@
    ```properties
    url=jdbc:mysql://localhost:3306/IP?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
    user=root
-   password=123456
+   password=your_password
    ```
 
    > ⚠️ 请确保你的数据库用户名、密码、端口与上述保持一致，或自行修改配置
@@ -71,3 +73,11 @@
 1. 启动时报错 Can't connect to database？
    - 请检查你的 db.properties 中数据库地址/用户名/密码是否正确
    - 数据库服务是否已启动，端口是否是 3306
+
+---
+## 👤 开发者信息（Development）
+- **作者**：Nan Lu
+- **角色**：全栈开发 / 系统设计 / UI 设计
+- **邮箱**：lunan96789@gmail.com
+- **GitHub**：[github.com/BillyNanLu](https://github.com/BillyNanLu)
+> 如您对本项目感兴趣，或有任何建议与合作意向，欢迎通过邮件联系。
